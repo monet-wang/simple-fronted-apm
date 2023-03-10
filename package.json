@@ -1,0 +1,13 @@
+{
+    "name": "simple-fronted-apm",
+    "version": "1.0.0",
+    "description": "a simple fronted apm system",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon"
+    },
+    "dependencies": {
+        "web-vitals": "^3.1.1"
+    }
+}
