@@ -12,7 +12,8 @@ export const MetricsEnum = {
     VUE: 'vue',                       // vue 框架捕捉的异常
     PV:  'page-view',                 // PV
     CBR: 'click-behavior',            // 点击事件
-    TS:  'time-on-system'             // 页面停留时长
+    TS:  'time-on-system',            // 页面停留时长
+    RE:  'report-error'               // 页面停留时长
 }
 
 export const initMetric = () => {

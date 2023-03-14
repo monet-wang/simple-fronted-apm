@@ -1,10 +1,9 @@
-import worker from '../lib/worker';
+import worker from './lib/worker';
 import { generateUniqueID } from './utils/tool';
-import { registRequest } from '../lib/request';
-import { initClickHandler, initPV } from '../lib/userVitals';
-import { initFCP, initFP, initNavigationTiming } from '../lib/webVitals';
-import { initJsError, initPromiseError, initVueError } from '../lib/exceptionVitals';
-
+import { registReporter } from './lib/request';
+import { initClickHandler, initPV } from './lib/userVitals';
+import { initFCP, initFP, initNavigationTiming } from './lib/webVitals';
+import { initJsError, initPromiseError, initVueError } from './lib/exceptionVitals';
 /**
  * @param url 上报的url
  * @param meta 自定义的上报信息
@@ -17,7 +16,7 @@ export default function (url, meta, { isInitDefault = true, filterFn, vue }) {
         localStorage.setItem('_tracker_uid', uuid)
     }
 
-    registRequest(url, {uuid, ...meta || {}});
+    registReporter(url, {uuid, ...meta || {}});
 
     worker.start();
 
