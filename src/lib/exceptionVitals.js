@@ -10,15 +10,13 @@ import { parseStackFrames } from '../utils/stackParser';
   */
 export const initJsError = () => {
     const handler = (event) => {
-        // 阻止向上抛出控制台报错
-        event.preventDefault();
-        console.log(event)
+        // event.preventDefault();
         const target = event.target;
         const exception = {
             message: event.message,
             error: event.error || '',
             // 解析后的错误堆栈
-            stackTrace: parseStackFrames(event.error), // todo：待验证
+            stackTrace: parseStackFrames(event.error),
             meta: {
                 file: event.filename,
                 col: event.colno,
@@ -43,13 +41,12 @@ export const initJsError = () => {
  */
 export const initPromiseError = () => {
     const handler = (event) => {
-        event.preventDefault(); // 阻止向上抛出控制台报错
-        console.log(event)
+        // event.preventDefault();
         const exception = {
             message: event.reason.message || event.reason,
-            error: event.error || '',
+            error: event.reason || '',
             // 解析后的错误堆栈
-            stackTrace: parseStackFrames(event.error), // todo：待验证
+            stackTrace: parseStackFrames(event.reason),
         }
         worker.push({
             trackType: MetricsEnum.UJ,
@@ -63,14 +60,13 @@ export const initPromiseError = () => {
 /**
  * vue 框架的报错异常
  */
-export const initVueError = (app) => {
+export const initVueError = ($vueInstance) => {
     // vue2中是Vue.config.errorHandler， vue3是app.config.errorHandler
     // 因此该函数只需要传入vue实例即可
-    app.config.errorHandler = (err, vm, info) => {
+    $vueInstance.config.errorHandler = (err, vm, info) => {
         const exception = {
             message: err.message,
             error: err || '',
-            stackTrace: parseStackFrames(err),
             meta: {
                 hook: info,
             },
@@ -80,5 +76,6 @@ export const initVueError = (app) => {
             ...exception,
             ...initMetric()
         }, true);
+        throw new Error(err);
     };
 };
